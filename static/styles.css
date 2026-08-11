@@ -1,0 +1,147 @@
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: Arial, sans-serif;
+      background-color: #f7f3ed;
+      color: #2f2f2f;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 20px 8%;
+      background-color: #ffffff;
+    }
+
+    header h1 {
+      margin: 0;
+      color: #6b3e26;
+    }
+
+    nav a {
+      margin-left: 20px;
+      color: #333333;
+      text-decoration: none;
+    }
+
+    nav a:hover {
+      color: #a45c35;
+    }
+
+    .hero {
+      min-height: 500px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 40px;
+      padding: 60px 8%;
+    }
+
+    .hero-text {
+      max-width: 550px;
+    }
+
+    .hero-text h2 {
+      margin-bottom: 20px;
+      font-size: 48px;
+      color: #6b3e26;
+    }
+
+    .hero-text p {
+      font-size: 18px;
+      line-height: 1.6;
+    }
+
+    .button {
+      display: inline-block;
+      margin-top: 20px;
+      padding: 12px 24px;
+      background-color: #a45c35;
+      color: white;
+      text-decoration: none;
+      border-radius: 5px;
+    }
+
+    .button:hover {
+      background-color: #7e4328;
+    }
+
+    .book-display {
+      width: 280px;
+      padding: 50px 30px;
+      background-color: #6b3e26;
+      color: white;
+      text-align: center;
+      border-radius: 8px;
+      box-shadow: 8px 8px 0 #d8c2aa;
+    }
+
+    .book-display h3 {
+      font-family: Georgia, serif;
+      font-size: 32px;
+    }
+
+    .features {
+      padding: 50px 8%;
+      background-color: #ffffff;
+      text-align: center;
+    }
+
+    .feature-list {
+      display: flex;
+      justify-content: center;
+      gap: 30px;
+      margin-top: 30px;
+    }
+
+    .feature {
+      width: 250px;
+      padding: 20px;
+      background-color: #f7f3ed;
+      border-radius: 8px;
+    }
+
+    footer {
+      padding: 20px;
+      background-color: #2f2f2f;
+      color: white;
+      text-align: center;
+    }
+
+    @media (max-width: 700px) {
+      header,
+      .hero,
+      .feature-list {
+        flex-direction: column;
+      }
+
+      header {
+        gap: 15px;
+      }
+
+      nav a {
+        margin: 0 8px;
+      }
+
+      .hero {
+        text-align: center;
+      }
+
+      .hero-text h2 {
+        font-size: 36px;
+      }
+
+      .book-display {
+        width: 100%;
+        max-width: 280px;
+      }
+
+      .feature {
+        width: 100%;
+      }
+    }
