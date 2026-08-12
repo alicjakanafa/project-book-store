@@ -34,6 +34,7 @@ jobs:
             if [ ! "$(docker network ls -q -f name=book_store_network)" ]; then
               docker network create book_store_network
             fi
+
       - name: Ensure database is running
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -52,6 +53,7 @@ jobs:
                 -d postgres:17
               docker exec -i book_store_db psql -U postgres -d book_store < ~/book_store/seeds/books.sql
             fi
+
       - name: Build Docker image
         uses: appleboy/ssh-action@v1.0.3
         with:
@@ -61,6 +63,7 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             docker build --pull -t book_store:latest ~/book_store
+
       - name: Deploy new container
         uses: appleboy/ssh-action@v1.0.3
         with:
