@@ -5,6 +5,7 @@ class UserRepository:
     def __init__(self, connection):
         self._connection = connection
 
+
     def all(self):
         rows = self._connection.execute(
             "SELECT * FROM users ORDER BY id"
@@ -22,25 +23,22 @@ class UserRepository:
 
         return users
 
-    # def find(self, user_id):
-    #     rows = self._connection.execute(
-    #         "SELECT * FROM users WHERE id = %s",
-    #         [user_id]
-    #     )
+    def find_by_username(self, username):
+        user_details = self._connection.execute(
+            'SELECT * FROM users WHERE username = %s', [username]
+        )[0]
 
-    #     row = rows[0]
-
-    #     return User(
-    #         row["id"],
-    #         row["username"],
-    #         row["password"],
-    #     )
+        return User(
+            user_details["username"],
+            user_details["password"],
+            user_details["id"]
+        )
 
     def create(self, user):
         self._connection.execute(
             """
-            INSERT INTO users (username, password, year)
-            VALUES (%s, %s, %s)
+            INSERT INTO users (username, password)
+            VALUES (%s, %s)
             """,
             [
                 user.username,

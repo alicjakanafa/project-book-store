@@ -42,14 +42,27 @@ def test_user_can_add_a_new_book(page: Page):
     connection = DatabaseConnection()
     connection.connect()
     connection.seed("./seeds/books_store.sql")
-    page.goto("http://127.0.0.1:5001/books")
 
-    page.get_by_label("Title").fill("Dune")
-    page.get_by_label("Author").fill("Frank Herbert")
-    page.get_by_label("Year").fill("1965")
+    # Log in first
+    page.goto("http://127.0.0.1:5001/sessions/new")
+
+    page.get_by_label("Username").fill("akanafa")
+    page.get_by_label("Password").fill("12345")
+
+    page.get_by_role("button", name="Log In").click()
+
+    # Successful login redirects us to /books
+    expect(page).to_have_url("http://127.0.0.1:5001/books")
+
+    # Now add the book
+    page.get_by_label("Title").fill("Before the Coffee Gets Cold")
+    page.get_by_label("Author").fill("Toshikazu Kawaguchi")
+    page.get_by_label("Year").fill("2019")
 
     page.get_by_role("button", name="Add Book").click()
 
-    expect(page.get_by_text("Dune", exact=True)).to_be_visible()
-    expect(page.get_by_text("By Frank Herbert", exact=True)).to_be_visible()
-    expect(page.get_by_text("Published: 1965", exact=True)).to_be_visible()
+    expect(page.get_by_text("Before the Coffee Gets Cold", exact=True)).to_be_visible()
+    expect(page.get_by_text("By Toshikazu Kawaguchi", exact=True)
+    ).to_be_visible()
+    expect(page.get_by_text("Published: 2019", exact=True)
+    ).to_be_visible()

@@ -1,10 +1,12 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, session
 from database_connection import DatabaseConnection
 from book_repository import BookRepository, Book
 from user_repository import UserRepository, User
+from login_required import *
 
 # instantiate a Flask app object
 app = Flask(__name__)
+app.secret_key = "some_really_secret_key"
 
 @app.route("/books", methods=['GET'])
 def get_books_page():
@@ -16,6 +18,7 @@ def get_books_page():
   return render_template("books.html", books=books)
 
 @app.route("/books", methods=['POST'])
+@login_required
 def add_book():
   connection = DatabaseConnection()
   connection.connect()
@@ -67,6 +70,28 @@ def create_user():
     user = User(username=user_details["username"], password=user_details["password"])
     user_repository.create(user)
     return redirect("/books")
+
+@app.route('/sessions/new', methods=['GET'])
+def get_login_form():
+    return render_template("login.html")
+
+@app.route('/sessions', methods=['POST'])
+def create_session():
+    connection = DatabaseConnection()
+    connection.connect()
+    user_repository = UserRepository(connection)
+
+    username = request.form["username"]
+    password = request.form["password"]
+
+    user = user_repository.find_by_username(username)
+
+    if user and user.password == password:
+        session["user_id"] = user.id
+        session["username"] = user.username
+        return redirect("/books")
+    else:
+        return redirect("/sessions/new")
 
 # make the server run in response to `python app.py`
 # on port 5001 (you'll learn more about what this means later)

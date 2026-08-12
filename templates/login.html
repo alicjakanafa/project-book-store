@@ -3,8 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="/static/signup_styles.css">
-  <title>Sign Up</title>
+  <link rel="stylesheet" href="/static/login_styles.css">
+  <title>Log In</title>
 </head>
 
 <body>
@@ -16,14 +16,13 @@
       <a href="/">Home</a>
       <a href="/books">Books</a>
       <a href="/users/new">Sign Up</a>
-      <a href="/sessions/new">Log In</a>
     </nav>
   </header>
 
   <main>
     
-    <form class="signup-form" method="POST" action="/signup">
-      <h1>Sign Up</h1>
+    <form class="login-form" method="POST" action="/sessions">
+      <h1>Welcome back!</h1>
 
       <label for="username">Username</label>
       <input
@@ -43,7 +42,7 @@
         required
       >
 
-      <input type="submit" value="Sign Up">
+      <input type="submit" value="Log In">
     </form>
     </main>
 
