@@ -40,7 +40,7 @@ INSERT INTO books (title, author, year) VALUES ('The Catcher in the Rye', 'J.D. 
 INSERT INTO books (title, author, year) VALUES ('Project Hail Mary', 'Andy Weir', 2021);
 
 INSERT INTO authors (name, dob) VALUES ('F. Scott Fitzgerald', '1896-09-24');
-INSERT INTO authors (name, dob) VALUES ('Harper Lee"', '1926-04-28');
+INSERT INTO authors (name, dob) VALUES ('Harper Lee', '1926-04-28');
 INSERT INTO authors (name, dob) VALUES ('George Orwell', '1903-06-25');
 INSERT INTO authors (name, dob) VALUES ('Jane Austen', '1775-12-16');
 INSERT INTO authors (name, dob) VALUES ('J.D. Salinger', '1919-01-01');
@@ -48,5 +48,3 @@ INSERT INTO authors (name, dob) VALUES ('J.D. Salinger', '1919-01-01');
 INSERT INTO users (username, password) VALUES ('akanafa', '12345');
 INSERT INTO users (username, password) VALUES ('sharrison', '67890');
 INSERT INTO users (username, password) VALUES ('jsamuels', '123@45');
-
-
