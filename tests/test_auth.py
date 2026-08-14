@@ -33,3 +33,27 @@ def test_auth_playwright(page: Page):
     print(page.url)
 
     expect(page).to_have_url("http://localhost:5001/books")
+
+def test_logged_out_user_cannot_access_add_book_page(page: Page):
+    page.goto("http://127.0.0.1:5001/books/new")
+
+    expect(page).to_have_url(
+        "http://127.0.0.1:5001/sessions/new"
+    )
+
+def test_logged_in_user_can_access_add_book_page(page: Page):
+    connection = DatabaseConnection()
+    connection.connect()
+    connection.seed("./seeds/books_store.sql")
+
+    page.goto("http://127.0.0.1:5001/sessions/new")
+
+    page.get_by_label("Username").fill("akanafa")
+    page.get_by_label("Password").fill("12345")
+    page.get_by_role("button", name="Log In").click()
+
+    page.goto("http://127.0.0.1:5001/books/new")
+
+    expect(
+        page.get_by_role("heading", name="Add a Book")
+    ).to_be_visible()

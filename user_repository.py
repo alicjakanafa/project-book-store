@@ -24,9 +24,15 @@ class UserRepository:
         return users
 
     def find_by_username(self, username):
-        user_details = self._connection.execute(
-            'SELECT * FROM users WHERE username = %s', [username]
-        )[0]
+        rows = self._connection.execute(
+            "SELECT * FROM users WHERE username = %s",
+            [username]
+        )
+
+        if len(rows) == 0:
+            return None
+
+        user_details = rows[0]
 
         return User(
             user_details["username"],

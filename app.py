@@ -36,16 +36,30 @@ def get_books_page():
         search_year=year
     )
 
-@app.route("/books", methods=['POST'])
+@app.route("/books", methods=["POST"])
 @login_required
 def add_book():
-  connection = DatabaseConnection()
-  connection.connect()
-  book_repository = BookRepository(connection)
-  book_details = request.form
-  book = Book(title=book_details["title"], author=book_details["author"], year=book_details["year"])
-  book_repository.create(book)
-  return redirect("/books")
+    connection = DatabaseConnection()
+    connection.connect()
+
+    book_repository = BookRepository(connection)
+
+    book_details = request.form
+
+    book = Book(
+        title=book_details["title"],
+        author=book_details["author"],
+        year=book_details["year"]
+    )
+
+    book_repository.create(book)
+
+    return redirect("/books")
+
+@app.route("/books/new", methods=["GET"])
+@login_required
+def get_new_book_form():
+    return render_template("new_book.html")
 
 @app.route('/authors', methods=['GET'])
 def get_authors():

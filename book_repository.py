@@ -61,40 +61,40 @@ class BookRepository:
 
     #     return None
 
-def search(self, title="", author="", year=""):
-    query = """
-        SELECT * FROM books
-        WHERE 1=1
-    """
+    def search(self, title="", author="", year=""):
+        query = """
+            SELECT * FROM books
+            WHERE 1=1
+        """
 
-    params = []
+        params = []
 
-    if title:
-        query += " AND title ILIKE %s"
-        params.append(f"%{title}%")
+        if title:
+            query += " AND title ILIKE %s"
+            params.append(f"%{title}%")
 
-    if author:
-        query += " AND author ILIKE %s"
-        params.append(f"%{author}%")
+        if author:
+            query += " AND author ILIKE %s"
+            params.append(f"%{author}%")
 
-    if year:
-        query += " AND year = %s"
-        params.append(year)
+        if year:
+            query += " AND year = %s"
+            params.append(year)
 
-    query += " ORDER BY id"
+        query += " ORDER BY id"
 
-    rows = self._connection.execute(query, params)
+        rows = self._connection.execute(query, params)
 
-    books = []
+        books = []
 
-    for row in rows:
-        books.append(
-            Book(
-                row["title"],
-                row["author"],
-                row["year"],
-                row["id"]
+        for row in rows:
+            books.append(
+                Book(
+                    row["title"],
+                    row["author"],
+                    row["year"],
+                    row["id"]
+                )
             )
-        )
 
-    return books
+        return books

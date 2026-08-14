@@ -115,3 +115,64 @@
     .book-form input[type="submit"]:hover {
       background-color: #7e4328;
     }
+
+    .search-form {
+      margin: 30px auto;
+      padding: 25px;
+      background-color: white;
+      border-radius: 10px;
+      max-width: 900px;
+    }
+
+    .search-form h2 {
+      margin-top: 0;
+      color: #6b3e26;
+    }
+
+    .search-fields {
+      display: flex;
+      gap: 20px;
+    }
+
+    .search-fields div {
+      flex: 1;
+    }
+
+    .search-form label {
+      display: block;
+      margin-bottom: 5px;
+      font-weight: bold;
+    }
+
+    .search-form input {
+      width: 100%;
+      padding: 10px;
+      border: 1px solid #cccccc;
+      border-radius: 5px;
+      font-size: 16px;
+    }
+
+    .search-form button {
+      margin-top: 20px;
+      padding: 10px 20px;
+      background-color: #a45c35;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+
+    .search-form button:hover {
+      background-color: #7e4328;
+    }
+
+    .clear-search {
+      margin-left: 10px;
+      color: #6b3e26;
+    }
+
+    @media (max-width: 700px) {
+      .search-fields {
+        flex-direction: column;
+      }
+}

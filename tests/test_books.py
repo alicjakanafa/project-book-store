@@ -1,5 +1,6 @@
 from playwright.sync_api import Page, expect
 from database_connection import DatabaseConnection
+from book_repository import BookRepository, Book
 
 def test_book_list_contains_all_book_details(page: Page):
     connection = DatabaseConnection()
@@ -43,7 +44,7 @@ def test_user_can_add_a_new_book(page: Page):
     connection.connect()
     connection.seed("./seeds/books_store.sql")
 
-    # Log in first
+    # Log in
     page.goto("http://127.0.0.1:5001/sessions/new")
 
     page.get_by_label("Username").fill("akanafa")
@@ -51,18 +52,111 @@ def test_user_can_add_a_new_book(page: Page):
 
     page.get_by_role("button", name="Log In").click()
 
-    # Successful login redirects us to /books
-    expect(page).to_have_url("http://127.0.0.1:5001/books")
+    expect(page).to_have_url(
+        "http://127.0.0.1:5001/books"
+    )
 
-    # Now add the book
-    page.get_by_label("Title").fill("Before the Coffee Gets Cold")
-    page.get_by_label("Author").fill("Toshikazu Kawaguchi")
+    # Go to the new Add Book page
+    page.goto("http://127.0.0.1:5001/books/new")
+
+    expect(page).to_have_url(
+        "http://127.0.0.1:5001/books/new"
+    )
+
+    # Fill in the form
+    page.get_by_label("Title").fill(
+        "Before the Coffee Gets Cold"
+    )
+
+    page.get_by_label("Author").fill(
+        "Toshikazu Kawaguchi"
+    )
+
     page.get_by_label("Year").fill("2019")
 
-    page.get_by_role("button", name="Add Book").click()
+    page.get_by_role(
+        "button",
+        name="Add Book"
+    ).click()
 
-    expect(page.get_by_text("Before the Coffee Gets Cold", exact=True)).to_be_visible()
-    expect(page.get_by_text("By Toshikazu Kawaguchi", exact=True)
+    # POST /books redirects back to the list
+    expect(page).to_have_url(
+        "http://127.0.0.1:5001/books"
+    )
+
+    expect(
+        page.get_by_text(
+            "Before the Coffee Gets Cold",
+            exact=True
+        )
     ).to_be_visible()
-    expect(page.get_by_text("Published: 2019", exact=True)
+
+    expect(
+        page.get_by_text(
+            "By Toshikazu Kawaguchi",
+            exact=True
+        )
     ).to_be_visible()
+
+    expect(
+        page.get_by_text(
+            "Published: 2019",
+            exact=True
+        )
+    ).to_be_visible()
+
+def test_search_books_by_title():
+    connection = DatabaseConnection()
+    connection.connect()
+    connection.seed("./seeds/books_store.sql")
+
+    repository = BookRepository(connection)
+
+    books = repository.search(title="Gatsby")
+
+    assert books == [
+        Book(
+            "The Great Gatsby",
+            "F. Scott Fitzgerald",
+            1925,
+            1
+        )
+    ]
+
+def test_search_books_by_year():
+    connection = DatabaseConnection()
+    connection.connect()
+    connection.seed("./seeds/books_store.sql")
+
+    repository = BookRepository(connection)
+
+    books = repository.search(year="1949")
+
+    assert books == [
+        Book(
+            "1984",
+            "George Orwell",
+            1949,
+            3
+        )
+    ]
+
+def test_user_can_filter_books_by_title(page: Page):
+    connection = DatabaseConnection()
+    connection.connect()
+    connection.seed("./seeds/books_store.sql")
+
+    page.goto("http://127.0.0.1:5001/books")
+
+    page.get_by_label("Search by title").fill("Gatsby")
+    page.get_by_role("button", name="Search").click()
+
+    expect(page.locator(".book-card")).to_have_count(1)
+
+    expect(
+        page.get_by_text("The Great Gatsby", exact=True)
+    ).to_be_visible()
+
+    expect(
+        page.get_by_text("1984", exact=True)
+    ).not_to_be_visible()
