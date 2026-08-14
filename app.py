@@ -8,14 +8,33 @@ from login_required import *
 app = Flask(__name__)
 app.secret_key = "some_really_secret_key"
 
-@app.route("/books", methods=['GET'])
+@app.route("/books", methods=["GET"])
 def get_books_page():
+    connection = DatabaseConnection()
+    connection.connect()
 
-  connection = DatabaseConnection()
-  connection.connect()
-  book_repository = BookRepository(connection)
-  books = book_repository.all()
-  return render_template("books.html", books=books)
+    book_repository = BookRepository(connection)
+
+    title = request.args.get("title", "")
+    author = request.args.get("author", "")
+    year = request.args.get("year", "")
+
+    if title or author or year:
+        books = book_repository.search(
+            title=title,
+            author=author,
+            year=year
+        )
+    else:
+        books = book_repository.all()
+
+    return render_template(
+        "books.html",
+        books=books,
+        search_title=title,
+        search_author=author,
+        search_year=year
+    )
 
 @app.route("/books", methods=['POST'])
 @login_required
