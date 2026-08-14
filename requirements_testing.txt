@@ -1,0 +1,12 @@
+-r requirements.txt
+distlib==0.4.3
+filelock==3.31.1
+iniconfig==2.0.0
+pipenv==2026.6.2
+platformdirs==4.10.1
+pluggy==1.4.0
+pytest==8.1.1
+pytest-base-url==2.1.0
+pytest-playwright==0.8.0
+python-discovery==1.4.4
+virtualenv==21.6.1
