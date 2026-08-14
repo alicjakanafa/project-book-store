@@ -1,0 +1,4 @@
+book_store_venv/
+__pycache__/
+*.pyc
+.envbook_store_venv/
